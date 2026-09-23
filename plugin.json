@@ -1,12 +1,12 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "lcc.recebify",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Agent Plugin do LCC/Recebify: MCP de empresas, deals, recebíveis CERC, Open Finance, dashboard e staff, com Skills de domínio.",
   "author": {
     "name": "LCC / Recebify"
   },
-  "repository": "https://gitlab.com/b2bit/lcc/lcc-backend",
+  "repository": "https://github.com/dev-lcchub/agent-plugin",
   "license": "UNLICENSED",
   "keywords": [
     "mcp",
@@ -16,5 +16,10 @@
     "antecipacao",
     "recebify",
     "lcc"
-  ]
+  ],
+  "extensions": {
+    "com.openai": {
+      "apps": "./.app.json"
+    }
+  }
 }

@@ -1,0 +1,62 @@
+# Agent Plugin `lcc.recebify`
+
+Pacote [Agent Plugins](https://agent-plugins.org/) que aponta o Cursor para o MCP do LCC/Recebify em produção e traz Skills de domínio.
+
+Este repositório só empacota descoberta no cliente (plugin + Skills). O servidor MCP roda em produção:
+
+`https://api.sistema.lcchub.com.br/mcp`
+
+## Conteúdo
+
+| Caminho | Função |
+| --- | --- |
+| `plugin.json` | Identidade do plugin (`name`: `lcc.recebify`) |
+| `mcp.json` | MCP `lcc-backend` → `https://api.sistema.lcchub.com.br/mcp` |
+| `skills/lcc-sessao/` | Auth, níveis, centavos |
+| `skills/lcc-consultas-publicas/` | `consultar_cnpj` (BrasilAPI, sem auth) |
+| `skills/lcc-empresas/` | `listar_empresas`, `obter_empresa` |
+| `skills/lcc-usuarios-empresa/` | Usuários, roles, flags OF/CERC |
+| `skills/lcc-deals-propostas/` | Produtos, deals, propostas, comentários |
+| `skills/lcc-recebiveis-antecipacao/` | CERC AP005 + `calcular_antecipacao` |
+| `skills/lcc-open-finance/` | Resumos, lançamentos, atualização oficial e backfill histórico |
+| `skills/lcc-dashboard/` | KPIs agregados e vendas por produto |
+| `skills/lcc-staff-tasks/` | Tarefas internas (superadmin) |
+
+## Instalação no Cursor (uma vez)
+
+O Cursor carrega plugins locais de `~/.cursor/plugins/local` ([docs](https://cursor.com/docs/plugins)):
+
+```bash
+# Na raiz deste repositório:
+mkdir -p ~/.cursor/plugins/local
+ln -sfn "$(pwd)" ~/.cursor/plugins/local/lcc.recebify
+```
+
+Depois: **Developer: Reload Window**. Em **Customize**, devem aparecer o plugin `lcc.recebify`, o server `lcc-backend` e as nove Skills.
+
+O symlink faz o Cursor ler **esta pasta do repo**. Não copie os arquivos — senão as atualizações do git não chegam.
+
+## Como atualiza
+
+Não há marketplace nem auto-refresh. O fluxo é:
+
+1. Alguém altera este repo (skill nova, `mcp.json`, etc.) e isso entra no git.
+2. Você dá `git pull` (ou já está na branch com as mudanças).
+3. Como o Cursor aponta para a pasta via symlink, os arquivos novos já estão no disco.
+4. Rode **Developer: Reload Window** para o Cursor reler `plugin.json`, `mcp.json` e as Skills.
+
+Sem o reload, o Cursor pode continuar com a versão antiga em memória.
+
+Auth continua no MCP (`auth_login` no modo legado, ou OAuth no conector). Nada de credencial no `mcp.json`.
+
+## Checklist
+
+- [ ] Serviço MCP em `https://api.sistema.lcchub.com.br/mcp`
+- [ ] Symlink `~/.cursor/plugins/local/lcc.recebify` → esta pasta
+- [ ] Após reload: server `lcc-backend` conecta e as Skills aparecem
+- [ ] `quem_sou_eu` funciona
+
+## Referências
+
+- [Agent Plugins](https://agent-plugins.org/)
+- [Cursor Plugins](https://cursor.com/docs/plugins)

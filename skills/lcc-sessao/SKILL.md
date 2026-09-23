@@ -34,20 +34,20 @@ Use esta skill antes de qualquer fluxo de negócio no servidor MCP `lcc-backend`
 
 ### Modo OAuth (`MCP_AUTH_MODE=oauth`)
 
-1. Auth no **conector** do cliente — não use `auth_login` (devolve aviso)
+1. Auth na conexão MCP `lcc-backend` do cliente — não use `auth_login` (devolve aviso)
 2. `quem_sou_eu` confere a identidade do token
 3. `trocar_empresa` vale para o token atual
 4. Sair: revogar OAuth no cliente; `auth_logout` não encerra sessão local
 
-## Codex: conector registrado e MCP direto
+## Codex: MCP direto
 
-O plugin pode expor o conector LCC.hub registrado em `.app.json` e a conexão MCP direta de `mcp.json`. Se o usuário já conectou o conector, use as tools dele e então `quem_sou_eu`. Não peça para repetir a autenticação pela conexão direta sem necessidade.
+O plugin expõe a conexão MCP direta `lcc-backend` de `mcp.json`. Use somente as tools dessa conexão. Tools rotuladas `MCP LCC.hub v0.3` pertencem ao conector antigo e não validam este plugin.
 
-Se apenas a conexão direta falhar com `Auth required`, seu login pode ser iniciado por `codex mcp login lcc-backend`. O `redirect_uri` com `127.0.0.1` é o retorno local do OAuth; o MCP permanece na URL remota. Se `/authorize` devolver `Redirect URI ... does not match allowed patterns`, explique que o login **direto** foi recusado pelo servidor de autorização. Esse erro não prova que o conector registrado também falhou. Não peça credenciais no chat nem sugira trocar a URL do MCP como solução.
+Se a conexão falhar com `Auth required`, seu login pode ser iniciado por `codex mcp login lcc-backend`. O `redirect_uri` com `127.0.0.1` é o retorno local do OAuth; o MCP permanece na URL remota. Se `/authorize` devolver `Redirect URI ... does not match allowed patterns`, explique que o login foi recusado pelo servidor de autorização. Não peça credenciais no chat nem sugira trocar a URL do MCP como solução.
 
 ## Ordem em conversa nova
 
-1. Identifique se as tools vêm do conector registrado ou da conexão MCP direta; use uma conexão já autenticada.
+1. Confirme que as tools vêm da conexão MCP `lcc-backend`.
 2. `quem_sou_eu` — confirme nível, usuário e empresa; no modo legado, usar `auth_login` se necessário.
 3. Só então tools de domínio.
 4. Empresa errada: `trocar_empresa` e `quem_sou_eu` de novo.

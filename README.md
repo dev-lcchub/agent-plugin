@@ -12,7 +12,6 @@ Este repositório só empacota descoberta no cliente (plugin + Skills). O servid
 | --- | --- |
 | `plugin.json` | Identidade do plugin (`name`: `lcc.recebify`) |
 | `mcp.json` | Conexão MCP direta `lcc-backend` → `https://api.sistema.lcchub.com.br/mcp` |
-| `.app.json` | Conector LCC.hub registrado no Codex |
 | `skills/lcc-sessao/` | Auth, níveis, centavos |
 | `skills/lcc-consultas-publicas/` | `consultar_cnpj` (BrasilAPI, sem auth) |
 | `skills/lcc-empresas/` | `listar_empresas`, `obter_empresa` |
@@ -36,11 +35,11 @@ Depois, abra uma nova tarefa e mencione `@lcc.recebify`. A cópia instalada fica
 
 ### Autenticação
 
-No Codex, o plugin aponta em `.app.json` para o conector **MCP LCC.hub v0.3** já registrado. Instale e conecte esse conector à sua conta; depois abra uma nova tarefa e teste `quem_sou_eu`. A conexão direta de `mcp.json` continua disponível para clientes que carregam MCP pelo pacote.
+No Codex, o plugin usa somente a conexão MCP direta `lcc-backend` de `mcp.json`. Autentique essa conexão com `codex mcp login lcc-backend`, abra uma nova tarefa e teste `quem_sou_eu`.
 
-O comando `codex mcp login lcc-backend` autentica a **conexão direta**, separada do conector registrado. Nesse fluxo, o `redirect_uri` com `127.0.0.1` é apenas o retorno temporário do OAuth no computador; o MCP segue em `https://api.sistema.lcchub.com.br/mcp`. Se o servidor responder `Redirect URI ... does not match allowed patterns`, o login direto está bloqueado, embora o conector registrado possa funcionar normalmente.
+Nesse fluxo, o `redirect_uri` com `127.0.0.1` é apenas o retorno temporário do OAuth no computador; o MCP segue em `https://api.sistema.lcchub.com.br/mcp`. Se o servidor responder `Redirect URI ... does not match allowed patterns`, confira a configuração do cliente e o retorno enviado antes de decidir se alguma alteração no servidor é necessária.
 
-O ID em `.app.json` identifica o conector de desenvolvimento usado neste teste. Antes de distribuir o plugin a outras contas, confirme que elas têm acesso ao conector ou substitua o ID pelo conector publicado para esse público.
+O antigo conector registrado **MCP LCC.hub v0.3** não faz parte deste plugin. Atualizá-lo não atualiza a conexão `lcc-backend`.
 
 ## Instalação no Cursor (uma vez)
 
@@ -67,15 +66,16 @@ No fluxo local do Cursor, não há marketplace nem auto-refresh. O fluxo é:
 
 Sem o reload, o Cursor pode continuar com a versão antiga em memória.
 
-Auth continua no MCP (`auth_login` no modo legado, ou OAuth no conector). Nada de credencial no `mcp.json`.
+Auth continua no MCP (`auth_login` no modo legado, ou OAuth no cliente). Nada de credencial no `mcp.json`.
 
 ## Checklist
 
 - [ ] Serviço MCP em `https://api.sistema.lcchub.com.br/mcp`
-- [ ] No Codex, plugin e conector LCC.hub instalados, com a conta conectada
+- [ ] No Codex, plugin instalado e `lcc-backend` autenticado
 - [ ] Symlink `~/.cursor/plugins/local/lcc.recebify` → esta pasta
 - [ ] Após reload: server `lcc-backend` conecta e as Skills aparecem
 - [ ] `quem_sou_eu` funciona
+- [ ] `solicitar_atualizacao_transacoes` e `solicitar_backfill_transacoes` aparecem no catálogo de tools do `lcc-backend`
 
 ## Referências
 

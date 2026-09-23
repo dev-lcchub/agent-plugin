@@ -1,0 +1,21 @@
+{
+  "name": "lcc-recebify",
+  "interface": {
+    "displayName": "LCC / Recebify"
+  },
+  "plugins": [
+    {
+      "name": "lcc.recebify",
+      "source": {
+        "source": "url",
+        "url": "https://github.com/dev-lcchub/agent-plugin.git",
+        "ref": "main"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

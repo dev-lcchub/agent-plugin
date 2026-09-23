@@ -37,7 +37,7 @@ Depois, abra uma nova tarefa e mencione `@lcc.recebify`. A cópia instalada fica
 
 No Codex, o plugin usa somente a conexão MCP direta `lcc-backend` de `mcp.json`. Autentique essa conexão com `codex mcp login lcc-backend`, abra uma nova tarefa e teste `quem_sou_eu`.
 
-Nesse fluxo, o `redirect_uri` com `127.0.0.1` é apenas o retorno temporário do OAuth no computador; o MCP segue em `https://api.sistema.lcchub.com.br/mcp`. Se o servidor responder `Redirect URI ... does not match allowed patterns`, corrija a lista de retornos permitidos no backend antes de repetir o login.
+Nesse fluxo, o `redirect_uri` com `127.0.0.1` é apenas o retorno temporário do OAuth no computador; o MCP segue em `https://api.sistema.lcchub.com.br/mcp`. Se o servidor responder `Redirect URI ... does not match allowed patterns`, confira a configuração do cliente e o retorno enviado antes de decidir se alguma alteração no servidor é necessária.
 
 O antigo conector registrado **MCP LCC.hub v0.3** não faz parte deste plugin. Atualizá-lo não atualiza a conexão `lcc-backend`.
 
